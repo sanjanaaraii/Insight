@@ -11,7 +11,7 @@ function Navbar(){
         <div className="fixed top-0 left-0 w-full bg-[#EEEAE3] z-50">
             <div className="flex justify-between pr-[68px] ">
                 <div className="flex items-center gap-4 pl-10 pt-4">
-                    <div className=' h-4 w-4.5 bg-black border-2 border-solid border-white rounded-full'></div>
+                    {/* <div className=' h-4 w-4.5 bg-black border-2 border-solid border-white rounded-full'></div> */}
                     <p className="text-2xl font-semibold " style={{ fontFamily: "JetBrains Mono" }}>INSIGHT.</p>
                 </div>
                 <div className="HAMBURGER-ICON space-y-2 pt-8 " onClick={handleClick}>

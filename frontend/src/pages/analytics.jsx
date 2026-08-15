@@ -3,9 +3,13 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import OverallScoreRing from "../utilities/svg/overallCircle";
 import useFetchData from "../utilities/data/fetchdata";
+import { useLocation } from "react-router-dom";
 
 function Analysis(){
-    const data = useFetchData("https://mocki.io/v1/3b349e49-899c-4f09-af46-6331d22cf66e");
+    const data = useFetchData("http://localhost:3000/api/analytics");
+    const location = useLocation();
+    console.log(location.state);
+
     return(
         <div className="pt-16">
             <Navbar/>
@@ -124,4 +128,3 @@ function Analysis(){
 
 export default Analysis;
 
-//https://mocki.io/v1/3b349e49-899c-4f09-af46-6331d22cf66e

@@ -9,27 +9,40 @@ function Form() {
 
   const navigate=useNavigate();
 
-  const handlesubmit= async (e)=>{
-    e.preventDefault();
-    
-    const response= await fetch("http://localhost:3000/api/analytics",{
+  const handlesubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("http://localhost:3000/api/analytics", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
-        name: name,
-        url: url,
-        fburl: fburl,
-        instaurl: instaurl
+        websiteUrl: url,
+        facebook: fburl,
+        instagram: instaurl,
+        linkedin: "",
+        youtube: ""
       })
     });
 
     const data = await response.json();
-    console.log(data);
-    console.log("Form submitted");
-    navigate("/analytics",
-      {state:data}
-    );
-  };
+
+    console.log("ANALYSIS RESULT:", data);
+
+    navigate("/analytics", {
+      state: {
+        ...data,
+        businessName: name
+      }
+    });
+
+  } catch (error) {
+    console.error("Analysis failed:", error);
+  }
+};
+
   return (
     <div className="mt-1 w-full md:w-[600px]" style={{ fontFamily: "JetBrains Mono" }}>
       <div className="card shadow-sm p-3 " style={{ backgroundColor: "#F5F2EC" }}>

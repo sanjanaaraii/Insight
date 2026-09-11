@@ -122,26 +122,54 @@
 // console.log("SOCIAL SCORE:", socialScore);
 // console.log("OVERALL SCORE:", overallScore);
 
-import { analyzeWebsite } from "./services/analysisService.js";
+// import { analyzeWebsite } from "./services/analysisService.js";
 
-const result = await analyzeWebsite({
+// const result = await analyzeWebsite({
 
-    websiteUrl: "https://example.com",
+//     websiteUrl: "https://example.com",
 
-    facebook: "https://facebook.com/example",
+//     facebook: "https://facebook.com/example",
 
-    instagram: "https://instagram.com/example",
+//     instagram: "https://instagram.com/example",
 
-    linkedin: "",
+//     linkedin: "",
 
-    youtube: ""
+//     youtube: ""
 
-});
+// });
 
-console.log(
-    JSON.stringify(
-        result,
-        null,
-        2
-    )
+// console.log(
+//     JSON.stringify(
+//         result,
+//         null,
+//         2
+//     )
+// );
+
+
+//crawler
+
+// import { crawlWebsite } from "./services/crawlerService.js";
+
+// const result = await crawlWebsite(
+//     "https://example.com",
+//     10
+// );
+
+// console.log(JSON.stringify(result, null, 2));
+
+//seoservice
+import { fetchWebsite } from "./services/websiteService.js";
+import { analyzeSEO } from "./services/seoService.js";
+
+const result = await fetchWebsite(
+    "https://example.com"
 );
+
+const seo = analyzeSEO(
+    result.html,
+    result.website
+);
+
+console.log("SEO RESULT:");
+console.log(seo);

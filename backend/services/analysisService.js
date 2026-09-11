@@ -4,6 +4,7 @@ import { checkTechnicalSEO } from "./technicalService.js";
 import { analyzePageSpeed } from "./pageSpeedService.js";
 import { analyzeSocialMedia } from "./socialService.js";
 import { analyzeGoogleBusiness } from "./googleBusinessService.js";
+import { crawlWebsite } from "./crawlerService.js";
 
 import {
     calculateSEOScore,
@@ -29,6 +30,7 @@ export async function analyzeWebsite({
     if (!websiteResult.reachable) {
         return {
             website: websiteResult,
+            crawl: null,
             seo: null,
             technical: null,
             pageSpeed: null,
@@ -40,26 +42,34 @@ export async function analyzeWebsite({
     }
 
 
-    // 2. Analyze SEO
+    // 2. Crawl website
+    const crawlResult =
+        await crawlWebsite(
+            websiteResult.finalUrl,
+            10
+        );
+
+
+    // 3. Analyze SEO
     const seoResult =
         analyzeSEO(websiteResult.html);
 
 
-    // 3. Technical SEO
+    // 4. Technical SEO
     const technicalResult =
         await checkTechnicalSEO(
             websiteResult.website
         );
 
 
-    // 4. PageSpeed
+    // 5. PageSpeed
     const pageSpeedResult =
         await analyzePageSpeed(
             websiteResult.website
         );
 
 
-    // 5. Social media
+    // 6. Social media
     const socialResult =
         analyzeSocialMedia({
             facebook,
@@ -69,12 +79,12 @@ export async function analyzeWebsite({
         });
 
 
-    // 6. Google Business
+    // 7. Google Business
     const googleBusinessResult =
         analyzeGoogleBusiness();
 
 
-    // 7. Calculate SEO score
+    // 8. Calculate SEO score
     const seoScore =
         calculateSEOScore(
             seoResult,
@@ -83,47 +93,37 @@ export async function analyzeWebsite({
         );
 
 
-    // 8. Social score
+    // 9. Social score
     const socialScore =
         socialResult.activePlatforms * 25;
 
 
-    // 9. Overall score
+    // 10. Overall score
     const overallScore =
         calculateOverallScore({
-
             seoScore,
-
             performance:
                 pageSpeedResult.performance,
-
             accessibility:
                 pageSpeedResult.accessibility,
-
             bestPractices:
                 pageSpeedResult.bestPractices,
-
             socialScore,
-
             googleBusinessScore: null
         });
 
 
-    // 10. Generate recommendations
+    // 11. Generate recommendations
     const recommendations =
         generateRecommendations({
-
             seo: seoResult,
-
             technical: technicalResult,
-
             pageSpeed: pageSpeedResult,
-
             social: socialResult
         });
 
 
-    // 11. Return everything
+    // 12. Return everything
     return {
 
         website: {
@@ -133,6 +133,8 @@ export async function analyzeWebsite({
             finalUrl: websiteResult.finalUrl,
             httpsEnabled: websiteResult.httpsEnabled
         },
+
+        crawl: crawlResult,
 
         seo: seoResult,
 
@@ -151,6 +153,5 @@ export async function analyzeWebsite({
         },
 
         recommendations
-
     };
 }
